@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Selmarinel's CV">
+    <meta name="author" content="Selmarinel">
+    <meta charset="UTF-8"/>
+    <title>Jessy CV</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Exo" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/app.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<section id="app">
+    <div class="container full-sized" id="first">
+        <div class="row">
+            <div class="col-3">
+                <img src="images/me.png" class="face-icon" id="my_face">
+            </div>
+            <div class="col-5 text-left" v-cloak>
+                {{name}}
+            </div>
+
+            <div class="col-4 text-right" v-cloak>
+                <small class="green">{{position}}</small>
+            </div>
+        </div>
+        <div class="row align-items-end" v-cloak>
+            <div class="col text-left offset-8 links">
+                <small v-for="link in links" v-if="link.show">
+                    <span v-if="link.link">
+                        <a :href="link.value" target="_blank">{{link.name}}</a>
+                    </span>
+                    <span v-else>
+                        {{link.name}} : {{link.value}}
+                    </span>
+                    <br/>
+                    <br/>
+                    <br/>
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <section class="container" id="contacts" v-cloak>
+        <h1>Contacts</h1>
+        <div class="row jumbotron">
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="email-link" v-for="link in links" v-if="!link.link">
+                    <i class="fa" :class="link.icon"></i> {{link.value}}
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-6 col-12 text-center">
+                <div class="social-link" v-for="link in links" v-if="link.link">
+                    <a :href="link.value"
+                       target="_blank"><i class="fa" :class="link.icon"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="summary" v-cloak>
+        <h1>Summary</h1>
+        <div class="row jumbotron">
+            {{summary}}
+        </div>
+    </section>
+
+    <section class="container" id="experience" v-cloak>
+        <h1>Experience
+            <small>(Last {{experience.length}})</small>
+        </h1>
+        <div class="row jumbotron">
+            <div class="card col-12" v-for="work in experience">
+                <div class="card-block">
+                    <div class="card-title">
+                        <h4>
+                            {{work.name}},
+                            <small class="green">{{work.position}}</small>
+                        </h4>
+                        <p>
+                            <small>{{work.location}} [{{work.date_from}} to {{work.date_to}}]</small>
+                        </p>
+                    </div>
+                    <div class="card-text">
+                        <p>
+                            {{work.responsibility}}
+                        </p>
+                        <div class="list-group">
+                            <section class="list-group-item list-group-item-action flex-column align-items-start"
+                                     v-for="project in work.projects">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{project.name}}</h5>
+                                    <small>{{project.position}}</small>
+                                </div>
+                                <p class="mb-1">{{project.description}}</p>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="card-text">
+                        <span class="badge badge-default" v-for="skill in work.stack">{{skill.name}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="projects" v-cloak>
+        <h1>Another important projects
+            <small>(Last {{projects.length}})</small>
+        </h1>
+        <div class="row jumbotron">
+            <div class="card col-lg-6 col-md-6 col-12" v-for="project in projects">
+                <div class="card-block">
+                    <div class="card-title">
+                        <h4>{{project.name}}</h4>
+                    </div>
+                    <div class="card-text">
+                        <p>{{project.description}}</p>
+                        <p>
+                            <i class="badge badge-pill badge-info" v-for="technology in project.stack">
+                                {{technology.name}}
+                            </i>
+                        </p>
+                        <a :href="project.link" class="btn btn-secondary" target="_blank" v-show="project.enable">
+                            <i class="fa fa-link" aria-hidden="true"></i>
+                            Visit
+                        </a>
+                        <a :href="project.git" class="btn btn-outline-success" target="_blank">
+                            <i class="fa fa-github"></i>
+                            GIT
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="education" v-cloak>
+        <h1>Education</h1>
+        <div class="row jumbotron" v-for="educate in education">
+            <h3>{{educate.name}}</h3>
+            <p>{{educate.description}}</p>
+        </div>
+    </section>
+
+    <section class="container" id="hobbies" v-cloak="">
+        <h1>Hobbies</h1>
+        <div class="row jumbotron">
+            <ul>
+                <li v-for="hobbie in hobbies">
+                    {{hobbie.name}}
+                </li>
+            </ul>
+        </div>
+    </section>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.9/vue.js"></script>
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+        var app = new Vue({
+            el: '#app',
+            data: {
+                name: "Jessy Sobakun",
+                position: "Go Dog",
+                links: [
+                    {
+                        name: "email",
+                        value: "jessy.sobakun@gmail.com",
+                        show: true,
+                        link: false,
+                        icon: "fa-envelope"
+                    }
+                ],
+                skills: [
+                    {name: "GO"},
+                ],
+                education: [
+                    {
+                        "name": "Nature",
+                        "description": "\n" +
+                        "Studied on the street. I have serious training and I know that it is not worth to throw on big dogs"
+
+                    }
+                ],
+                experience: [
+                    {
+                        name: "Kiev",
+                        date_from: "14.02.2017",
+                        date_to: "present",
+                        location: "Ukraine, Kiev",
+                        position: "Go Dog",
+                        projects: [
+                            {
+                                "name": "Street Project",
+                                "position": "Head developer",
+                                "description": "I ran and played"
+                            }
+                        ],
+                        "stack": [
+                            {"name": "Leash"},
+                            {"name": "Collar"},
+                            {"name": "Puller"},
+                            {"name": "Blue Bone"},
+                            {"name": "Go"},
+                        ],
+                        responsibility: "Pretty good dog"
+                    },
+                ],
+                projects: [
+                    {
+                        "name": "Big stack",
+                        "src": "",
+                        "link": "",
+                        "git": "",
+                        "description": "Big big stack of good thing",
+                        "enable": true,
+                        "stack": [
+                            {"name": "Me!"},
+                        ]
+                    },
+                ],
+                hobbies: [
+                    {"name": "Run after cats"},
+                    {"name": "Love people"},
+                    {"name": "Eat"},
+                    {"name": "Learn something new"},
+                    {"name": "Active games"},
+                    {"name": "Go throw the field or forest"}
+                ],
+                summary: "I am DOG!"
+            },
+            created: function () {
+
+            },
+            mounted: function () {
+            }
+        });
+
+    });
+</script>
+</body>
+</html>
+
+
